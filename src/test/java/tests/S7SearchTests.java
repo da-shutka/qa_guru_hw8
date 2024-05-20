@@ -27,7 +27,7 @@ public class S7SearchTests extends TestBase {
             "Москва, Санкт-Петербург",
             "Волгоград, Москва"
     })
-    public void searchFlightsShouldReturnNotEmptyResult(String cityFrom, String cityTo) {
+    public void searchFlightsShouldReturnNotEmptyResultTest(String cityFrom, String cityTo) {
         timetablePage
                 .openPage()
                 .setCityFrom(cityFrom)
@@ -43,47 +43,65 @@ public class S7SearchTests extends TestBase {
             "Анапа", "Белгород", "Брянск", "Воронеж", "Геленджик",
             "Краснодар", "Курск", "Липецк", "Ростов-на-Дону", "Симферополь"
     })
-    public void temporarilyClosedAirportsAreNotInTheFromList(String city) {
+    public void checkTemporarilyClosedAirportsAreNotInTheFromListTest(String city) {
         timetablePage
                 .openPage()
                 .setCityFrom(city)
                 .checkCityFrom(city);
     }
 
-    static Stream<Arguments> headersDependOnSelectedLanguage() {
+    static Stream<Arguments> checkHeadersDependOnSelectedLanguageTest() {
         return Stream.of(
                 Arguments.of(
                         Language.RU,
-                        List.of("Расписание полетов S7 Airlines", "Список доступных маршрутов")
+                        List.of(
+                                "Расписание полетов S7 Airlines",
+                                "Список доступных маршрутов"
+                        )
                 ),
                 Arguments.of(
                         Language.EN,
-                        List.of("S7 Airlines flight schedule", "List of available S7 Airlines routes and flights details")
+                        List.of(
+                                "S7 Airlines flight schedule",
+                                "List of available S7 Airlines routes and flights details"
+                        )
                 ),
                 Arguments.of(
                         Language.CN,
-                        List.of("飞行时刻表", "S7 Airlines 路线列表及航班详情")
+                        List.of(
+                                "飞行时刻表",
+                                "S7 Airlines 路线列表及航班详情"
+                        )
                 ),
                 Arguments.of(
                         Language.DE,
-                        List.of("S7 Airlines Flugplan", "Liste der S7 Airlines Routen zur Verfügung und Details der Flüge")
+                        List.of(
+                                "S7 Airlines Flugplan",
+                                "Liste der S7 Airlines Routen zur Verfügung und Details der Flüge"
+                        )
                 ),
                 Arguments.of(
                         Language.ES,
-                        List.of("Horarios de vuelos S7 Airlines", "Lista de rutas de S7 Airlines y detalles de vuelos")
+                        List.of(
+                                "Horarios de vuelos S7 Airlines",
+                                "Lista de rutas de S7 Airlines y detalles de vuelos"
+                        )
                 ),
                 Arguments.of(
                         Language.IT,
-                        List.of("Programma di volo S7 Airlines", "Lista dei percorsi S7 Airlines disponibili ei dettagli dei voli")
+                        List.of(
+                                "Programma di volo S7 Airlines",
+                                "Lista dei percorsi S7 Airlines disponibili ei dettagli dei voli"
+                        )
                 )
 
         );
     }
 
     @Tag("SMOKE")
-    @MethodSource
+    @MethodSource("checkHeadersDependOnSelectedLanguageTest")
     @ParameterizedTest(name = "Проверка заголовков в баннере для языка {0}")
-    public void headersDependOnSelectedLanguage(Language language, List<String> expectedHeaders) {
+    public void checkHeadersDependOnSelectedLanguageTest(Language language, List<String> expectedHeaders) {
         timetablePage
                 .openPage()
                 .selectLanguage(language.description)
